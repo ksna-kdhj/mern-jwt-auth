@@ -1,0 +1,8 @@
+20230216	07:42:19	265e96fa-7f82-4ec4-b816-e3507500a1b2	Error: Not allowed by CORS
+20230218	11:34:36	c213ec3b-d45e-4210-af72-667e42cbfa04	TypeError: Cannot read properties of undefined (reading 'authorization')
+20230218	11:35:03	71b7a080-4c48-4563-b39a-d5b7bf6bb10e	TypeError: Cannot read properties of undefined (reading 'authorization')
+20230218	11:41:11	2716bcc6-3d30-47c5-97b5-a4a9b20850db	TypeError: Cannot read properties of undefined (reading 'authorization')
+20230218	17:56:01	1c91f061-6ca6-4342-b635-3c5963f0ed6f	SyntaxError: Unexpected token u in JSON at position 1
+20230218	17:57:18	9caa8e59-8614-4a1a-93b3-43df3bcc504f	SyntaxError: Unexpected token u in JSON at position 1
+20230218	19:04:04	95ebb52f-1c10-4e99-a028-ffff0ff3cd1f	SyntaxError: Unexpected token E in JSON at position 36
+20230219	18:18:44	3465f680-d630-4813-9171-ab66dff4ce69	Error: Not allowed by CORS
