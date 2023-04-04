@@ -1,13 +1,14 @@
 import {Outlet} from 'react-router-dom'
 import { useState,useEffect } from 'react'
 import useRefreshToken from '../hooks/useRefreshToken'
-import useAuth from '../hooks/useAuth'
 import useLocalStorage from '../hooks/useLocalStorage'
-
+import { selectToken } from '../features/auth/authSlice'
+import { useSelector } from 'react-redux'
 const PersistLogin = () => {
     const [isLoading,setIsLoading] = useState(true)
     const refresh = useRefreshToken()
-    const {auth} = useAuth()
+    const token = useSelector(selectToken)
+    console.log(token)
     const[persist]=useLocalStorage('persist',false)
     useEffect(()=>{
         let isMounted = true
@@ -21,15 +22,11 @@ const PersistLogin = () => {
                 isMounted && setIsLoading(false)
             }
         }
-        !auth?.accessToken ?
+        !token?
         verifyRefreshToken(): setIsLoading(false)
 
         return () => isMounted = false
     },[])
-    // useEffect(()=>{
-    //     console.log(`isLoading: ${isLoading}`)
-    //     console.log(`aT: ${JSON.stringify(auth?.accessToken)}`)
-    // },[isLoading])
   return (
     <>
     {!persist?

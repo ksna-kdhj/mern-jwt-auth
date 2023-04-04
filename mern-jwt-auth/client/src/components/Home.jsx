@@ -1,11 +1,17 @@
 import { useNavigate, Link } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
-
+import { useDispatch, useSelector } from "react-redux"
+import { selectToken } from "../features/auth/authSlice"
+import { clearCredentials } from "../features/auth/authSlice"
 const Home = () => {
+    const dispatch = useDispatch()
+    const token = useSelector(selectToken)    
+    console.log(token)
     const navigate = useNavigate()
     const logout = useLogout()
 
     const signOut = async () => {
+        dispatch(clearCredentials())
         await logout()
         navigate('/linkpage');
     }
@@ -22,7 +28,8 @@ const Home = () => {
             <br />
             <Link to="/lounge">Go to the Lounge</Link>
             <br />
-            <Link to="/linkpage">Go to the link page</Link>
+            <Link to="/StudyTracker">Go to study tracker page</Link>
+            <br />
             <div className="flexGrow">
                 <button onClick={signOut}>Sign Out</button>
             </div>

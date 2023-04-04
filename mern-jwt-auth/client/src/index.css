@@ -102,7 +102,7 @@ button {
 }
 
 .errmsg {
-    background-color: lightpink;
+    background-color: white;
     color: firebrick;
     font-weight: bold;
     padding: 0.5rem;

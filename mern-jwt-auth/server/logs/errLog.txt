@@ -6,3 +6,5 @@
 20230218	17:57:18	9caa8e59-8614-4a1a-93b3-43df3bcc504f	SyntaxError: Unexpected token u in JSON at position 1
 20230218	19:04:04	95ebb52f-1c10-4e99-a028-ffff0ff3cd1f	SyntaxError: Unexpected token E in JSON at position 36
 20230219	18:18:44	3465f680-d630-4813-9171-ab66dff4ce69	Error: Not allowed by CORS
+20230324	08:58:38	b61ef806-d525-447c-8627-a66ce70f25e6	Error: Not allowed by CORS
+20230324	08:58:49	4dd668fc-d734-4592-82ba-855b16344b7c	Error: Not allowed by CORS

@@ -1,19 +1,16 @@
-import axios from "../api/axios"
-import useAuth from "./useAuth"
-
+import { useDispatch,useSelector } from "react-redux"
+import { useLogoutMutation } from "../features/auth/authApiSlice"
 const useLogout =() =>{
-    const {setAuth} = useAuth()
-
+    console.log('at logout')
+    const [logout] = useLogoutMutation()
     const logOut = async() =>{
-        setAuth({})
         try{
-            const response = await axios('/logout',{
-                withCredentials: true
-            })
+            const response = await logout().unwrap()
         }catch(err){
             console.error(err)
         }
     }
+    console.log(useSelector(state=>state.auth))
     return logOut
 }
 export default useLogout
