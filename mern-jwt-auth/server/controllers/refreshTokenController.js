@@ -48,12 +48,12 @@ const handleRefreshToken = async (req,res)=>{
                 }
             },
                 process.env.ACCESS_TOKEN_SECRET,
-                {expiresIn:'30s'}
+                {expiresIn:'10s'}
             )
             const newRefreshToken = jwt.sign({
                 username: foundUser.username}
                 ,process.env.REFRESH_TOKEN_SECRET,
-                {expiresIn:'15m'})
+                {expiresIn:'24hr'})
             foundUser.refreshToken = [...newRefreshTokenArray,newRefreshToken]
             await foundUser.save()
             res.cookie('jwt',newRefreshToken,{

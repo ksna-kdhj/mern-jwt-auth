@@ -2,6 +2,9 @@ import { createTheme } from "@mui/system"
 import { blue } from "@mui/material/colors"
 import { lightBlue } from '@mui/material/colors'
 import { useEffect } from "react"
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap');
+</style>
 const BaseTheme = (colorMode) => {
   useEffect(()=>{
     localStorage.setItem('colormode',JSON.stringify(colorMode))
@@ -22,6 +25,9 @@ const BaseTheme = (colorMode) => {
       // focusOpacity: 1,
       // selected: lightBlue[300],
       // selectedOpacity: 1
+        },
+        typography: {
+          fontFamily:  'Delicious Handrawn, cursive'
         },
       components: {
         MuiLink: {

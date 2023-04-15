@@ -23,6 +23,7 @@ app.use(cookieParser())
 app.use('/', express.static(PATH.join(__dirname, '/public')));
 app.use('/register',require('./routes/register'))
 app.use('/auth',require('./routes/auth'))
+app.use('/profile',require('./routes/profile'))
 app.use('/refresh',require('./routes/refresh'))
 app.use('/users',require('./routes/api/users'))
 app.use('/logout',require('./routes/logout'))

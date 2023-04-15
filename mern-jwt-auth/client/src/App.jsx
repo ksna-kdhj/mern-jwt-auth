@@ -12,6 +12,8 @@ import LinkPage from './components/LinkPage'
 import Unauthorized from './components/Unauthorized'
 import PersistLogin from './components/PersistLogin'
 import './index.css'
+import Profile from './components/Profile'
+import NoteShare from './components/noteShare'
 // import StudyTimeTracker from './components/StudyTimeTracker'
 
 function App() {
@@ -20,18 +22,21 @@ function App() {
   return (
   <Routes>
     {/* <Route element={<ToggleColorMode/>}> */}
-    <Route path="/" element={<Layout/>}>
+    
     {/* public routes */}
+    
+    {/* <Route path="NavBar" element={<NavBar/>}></Route> */}
+    {/* protected routes */}
+    <Route element={<PersistLogin/>}>
+    <Route path="/" element={<Layout/>}>
     <Route path="linkPage" element = {<LinkPage/>}></Route>
     <Route path="login" element={<Login/>}></Route>
     <Route path="register" element={<Register/>}></Route>
     <Route path="unauthorized" element = {<Unauthorized/>}></Route>
-    {/* <Route path="NavBar" element={<NavBar/>}></Route> */}
-    {/* protected routes */}
-    <Route element={<PersistLogin/>}>
-    
-    <Route element={<RequireAuth allowedRoles={[2001]}/>}>
+    <Route element={<RequireAuth allowedRoles={[2001]}/>}> 
     <Route path="/" element = {<Home/>}/>
+    <Route path='profile' element={<Profile/>}/>
+    <Route path='NoteShare' element={<NoteShare/>}/>
     </Route>
     <Route element={<RequireAuth allowedRoles={[1984]}/>}>
     <Route path="Editor" element={<Editor/>}></Route>
@@ -42,9 +47,10 @@ function App() {
     <Route element={<RequireAuth allowedRoles={[1984,150]}/>}>
     <Route path="Lounge" element={<Lounge/>}></Route>
     </Route>
+    <Route path="*" element={<Missing/>}></Route>
     </Route>
     {/* Catch all other paths */}
-    <Route path="*" element={<Missing/>}></Route>
+    
     </Route>
     {/* </Route> */}
   </Routes>

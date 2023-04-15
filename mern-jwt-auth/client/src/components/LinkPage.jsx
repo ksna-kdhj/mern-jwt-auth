@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
-
+// import useToggle from "../hooks/useToggle"
 const LinkPage = () => {
+    // const [check,toggleCheck] = useToggle('persist',false)
     return (
         <section>
             <h1>Links</h1>

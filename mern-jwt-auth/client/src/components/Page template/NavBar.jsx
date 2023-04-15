@@ -20,19 +20,31 @@ import Brightness4Icon from '@mui/icons-material/Brightness4'
 import { ThemeProvider } from '@emotion/react';
 import BaseTheme from '../themes/BaseTheme';
 import styled from '@emotion/styled';
-import { selectUser } from '../../features/auth/authSlice';
+import { selectToken, selectUser } from '../../features/auth/authSlice';
 import LoginIcon from '@mui/icons-material/Login';
 import SchoolTwoToneIcon from '@mui/icons-material/SchoolTwoTone';
 import { Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useLogout from '../../hooks/useLogout';
 import { clearCredentials } from '../../features/auth/authSlice';
+import { selectPicture } from '../../features/profile/profileSlice';
+import { useGetProfileMutation } from '../../features/profile/profileApiSlice';
+import { useEffect } from 'react';
+import { setProfilePicture } from '../../features/profile/profileSlice';
 
 function NavBar() {
+  const [getProfile] = useGetProfileMutation()
   const logout = useLogout()
   const navigate = useNavigate()
-  const user = useSelector(selectUser)
-  console.log(user)
+  const token = useSelector(selectToken)
+  // console.log(token)
+  const usr = useSelector(selectUser)
+  // console.log(usr)
+  const user = token?usr:null
+  const [imgData, setImgData] = useState(null);
+  // console.log(user)
+  const picture = useSelector(selectPicture)
+  // console.log(picture)
   const pages = ['About', 'Blog','Home'];
 const settings = ['Profile', 'MyTracker','MyCollegeTracker', `${user?'Logout':'Login'}`];
   const colorMode = useSelector(selectColorMode)
@@ -59,20 +71,21 @@ const settings = ['Profile', 'MyTracker','MyCollegeTracker', `${user?'Logout':'L
 //     
 // }
   const handleLinkClick = async (setting)=>{
-    console.log(setting)
+    // console.log(setting)
     if (`${setting}`=='Logout'){
       // console.log('im here')
       dispatch(clearCredentials())
+      dispatch(setProfilePicture({picture:null}))
       await logout()
       navigate('/linkpage',{replace:true})
     }
     else{
       if(`${setting}`=='Home'){
-        const destination = '/linkpage'
+        const destination = '/'
         navigate(destination)
       }else{
     const destination = `${'/'.concat(`${setting}`.toLowerCase())}`
-    console.log(destination)
+    // console.log(destination)
     navigate(destination)
       }
   }
@@ -91,9 +104,27 @@ const settings = ['Profile', 'MyTracker','MyCollegeTracker', `${user?'Logout':'L
   const handleCloseUserMenu = () => {
   setAnchorElUser(null);
   };
+  
   const handleToggleColorMode = () =>{
     dispatch(toggle())
   }
+  let c = 0
+  useEffect(()=>{
+    const getData = async()=>{
+      const profileData = await getProfile({user:user}).unwrap()
+      // console.log(profileData)
+      dispatch(setProfilePicture({picture:profileData.picture}))
+      setImgData(profileData.picture)
+      // console.log(profileData)
+      // console.log(imgData)
+      // console.log(profileData.name)
+    }
+    // Bio==null||Name==null&&
+    c = c+1
+    console.log(c)
+    if(c==1)
+     user && getData()
+  },[token])
   const content = 
   // {/* <ToggleColorMode theme={theme}/> */}
   <ThemeProvider theme={navTheme}>
@@ -101,7 +132,9 @@ const settings = ['Profile', 'MyTracker','MyCollegeTracker', `${user?'Logout':'L
       <Container maxWidth="xl" sx={{color:'primary.dark'}}>
         <Toolbar disableGutters>
           {/* <Link href='/'> */}
+            {/* <IconButton> */}
           <SchoolTwoToneIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          {/* </IconButton> */}
           {/* </Link> */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -133,15 +166,17 @@ const settings = ['Profile', 'MyTracker','MyCollegeTracker', `${user?'Logout':'L
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link 
-              // href={`${'/'.concat(setting.toLowerCase())}`}
-              onClick={()=>handleLinkClick(page)}
-               sx={{textDecoration: 'none'}}color='inherit'>
-                <Typography textAlign="center" color='primary.dark'>
+                <MenuItem key={page} onClick={handleCloseNavMenu} >
+                
+                  {/* <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'primary.dark', display: 'block' }}
+              > */}
+                <Link onClick={()=>handleLinkClick(page)} sx={{textDecoration: 'none'}}color='primary.dark'>
                 {page}
-                    </Typography>
                 </Link>
+              {/* </Button> */}
                 </MenuItem>
               ))}
             </Menu>
@@ -168,7 +203,7 @@ const settings = ['Profile', 'MyTracker','MyCollegeTracker', `${user?'Logout':'L
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'inherit', display: 'block' }}
+                sx={{ my: 2, color: 'primary.dark', display: 'block' }}
               >
                 <Link 
               // href={`${'/'.concat(setting.toLowerCase())}`}
@@ -190,10 +225,9 @@ const settings = ['Profile', 'MyTracker','MyCollegeTracker', `${user?'Logout':'L
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {user!=null?
-                <Avatar alt={`${user}`} src={`${user[0]}`} />:
-                <LoginIcon label='login'/>
-                }
+              {user?(picture?<Avatar src={imgData?imgData:picture}></Avatar>:<Avatar alt={`${user}`} src={`${user[0]}`} sx={{ bgcolor: 'primary.dark' }}>
+          </Avatar>):<LoginIcon label='login'/>}
+        
               </IconButton>
             </Tooltip>
             <Menu
@@ -214,6 +248,18 @@ const settings = ['Profile', 'MyTracker','MyCollegeTracker', `${user?'Logout':'L
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} name={setting} onClick={handleCloseUserMenu}>
+                   {/* <Button
+                key={setting}
+                onClick={handleCloseUserMenu}
+                sx={{ my: 2, color: 'primary.dark', display: 'block' }}
+              >
+                <Link 
+              // href={`${'/'.concat(setting.toLowerCase())}`}
+              onClick={()=>handleLinkClick(setting)}
+               sx={{textDecoration: 'none'}}color='primary.dark'>
+                {setting}
+                </Link>
+              </Button> */}
                   <Link 
                   // href={`${'/'.concat(setting.toLowerCase())}`}
                   onClick={()=>handleLinkClick(setting)}
